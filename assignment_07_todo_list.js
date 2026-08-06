@@ -82,3 +82,109 @@
 // =============================================================================
 
 
+// Import the readline-sync module for user input
+const readlineSync = require('readline-sync');
+
+// Global array to store tasks
+const tasks = [];
+
+/**
+ * FEATURE 1: Add a Task
+ * Prompts the user for a task description and adds it to the array.
+ */
+function addTask() {
+    const taskDesc = readlineSync.question('Enter task: ');
+
+    if (taskDesc.trim() === '') {
+        console.log('Error: Task description cannot be empty.');
+        return;
+    }
+
+    tasks.push(taskDesc.trim());
+    console.log(`Task added: "${taskDesc.trim()}"`);
+}
+
+/**
+ * FEATURE 2: View All Tasks
+ * Displays all tasks currently in the array, numbered starting from 1.
+ */
+function viewTasks() {
+    if (tasks.length === 0) {
+        console.log('\nYour to-do list is empty!');
+        return;
+    }
+
+    console.log('\nYour Tasks:');
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(`${i + 1}. ${tasks[i]}`);
+    }
+}
+
+/**
+ * FEATURE 3: Delete a Task
+ * Displays tasks, prompts for a task number, and removes it using splice().
+ */
+function deleteTask() {
+    if (tasks.length === 0) {
+        console.log('\nNo tasks to delete!');
+        return;
+    }
+
+    viewTasks();
+    const taskNum = readlineSync.questionInt('\nEnter task number to delete: ');
+    const index = taskNum - 1; // Convert 1-based index to 0-based index
+
+    if (index >= 0 && index < tasks.length) {
+        const removed = tasks.splice(index, 1);
+        console.log(`Task "${removed[0]}" has been removed.`);
+    } else {
+        console.log('Error: Invalid task number.');
+    }
+}
+
+/**
+ * Displays the main menu choices.
+ */
+function displayMenu() {
+    console.log('\n============================');
+    console.log('       TO-DO LIST MENU      ');
+    console.log('============================');
+    console.log('1. Add task');
+    console.log('2. View tasks');
+    console.log('3. Delete task');
+    console.log('4. Quit');
+}
+
+/**
+ * Main function containing the loop to keep the interactive menu active.
+ */
+function main() {
+    let running = true;
+
+    while (running) {
+        displayMenu();
+        const choice = readlineSync.questionInt('Enter your choice (1-4): ');
+
+        switch (choice) {
+            case 1:
+                addTask();
+                break;
+            case 2:
+                viewTasks();
+                break;
+            case 3:
+                deleteTask();
+                break;
+            case 4:
+                console.log('Goodbye!');
+                running = false;
+                break;
+            default:
+                console.log('Invalid choice! Please select a number between 1 and 4.');
+                break;
+        }
+    }
+}
+
+// Execute the application
+main();
