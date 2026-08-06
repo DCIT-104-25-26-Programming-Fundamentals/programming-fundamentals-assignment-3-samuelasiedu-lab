@@ -60,3 +60,70 @@
 // =============================================================================
 
 
+// Import the readline-sync module for user input
+const readlineSync = require('readline-sync');
+
+/**
+ * PART A — Prints the multiplication table for a single number from 1 to 12.
+ * 
+ * @param {number} n - The number to generate the table for.
+ */
+function printSingleTable(n) {
+    if (n <= 0 || isNaN(n)) {
+        console.log('Error: Please enter a positive integer greater than 0.');
+        return;
+    }
+
+    console.log(`\nMultiplication Table for ${n}:`);
+    for (let i = 1; i <= 12; i++) {
+        // Pads output slightly for neat alignment (e.g., 5 x  2 =  10)
+        const multiplier = String(i).padStart(2, ' ');
+        const result = String(n * i).padStart(3, ' ');
+        console.log(`${n}  x  ${multiplier}  =  ${result}`);
+    }
+}
+
+/**
+ * PART B — Prints multiplication tables from 1 up to N (1 to 12 for each).
+ * 
+ * @param {number} limit - The upper limit N for table generation.
+ */
+function printMultipleTables(limit) {
+    if (limit <= 0 || isNaN(limit)) {
+        console.log('Error: Please enter a positive integer greater than 0.');
+        return;
+    }
+
+    for (let current = 1; current <= limit; current++) {
+        printSingleTable(current);
+        if (current < limit) {
+            console.log('---------------------------');
+        }
+    }
+}
+
+/**
+ * Main execution function to control program flow.
+ */
+function main() {
+    console.log("=== MULTIPLICATION TABLE GENERATOR ===\n");
+    console.log("1. Generate table for a single number");
+    console.log("2. Generate tables from 1 to N");
+    
+    const option = readlineSync.questionInt("\nSelect an option (1 or 2): ");
+
+    if (option === 1) {
+        // --- PART A ---
+        const num = readlineSync.questionInt("Enter a number: ");
+        printSingleTable(num);
+    } else if (option === 2) {
+        // --- PART B ---
+        const maxNum = readlineSync.questionInt("Enter upper limit N: ");
+        printMultipleTables(maxNum);
+    } else {
+        console.log("Invalid option selected.");
+    }
+}
+
+// Execute the main function
+main();
