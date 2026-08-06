@@ -75,3 +75,135 @@
 // =============================================================================
 
 
+// Import the readline-sync module for user input
+const readlineSync = require('readline-sync');
+
+/**
+ * Adds two numbers.
+ */
+function add(num1, num2) {
+    return num1 + num2;
+}
+
+/**
+ * Subtracts the second number from the first.
+ */
+function subtract(num1, num2) {
+    return num1 - num2;
+}
+
+/**
+ * Multiplies two numbers.
+ */
+function multiply(num1, num2) {
+    return num1 * num2;
+}
+
+/**
+ * Divides the first number by the second.
+ * Returns null if attempting to divide by zero.
+ */
+function divide(num1, num2) {
+    if (num2 === 0) {
+        return null;
+    }
+    return num1 / num2;
+}
+
+/**
+ * Computes the modulus (remainder) of two numbers.
+ * Returns null if attempting modulus by zero.
+ */
+function modulus(num1, num2) {
+    if (num2 === 0) {
+        return null;
+    }
+    return num1 % num2;
+}
+
+/**
+ * Raises the base number to the power of the exponent.
+ */
+function exponentiate(base, exponent) {
+    return base ** exponent;
+}
+
+/**
+ * Displays the main calculator menu options.
+ */
+function displayMenu() {
+    console.log('\n============================');
+    console.log('       SIMPLE CALCULATOR    ');
+    console.log('============================');
+    console.log('1. Addition       (+)');
+    console.log('2. Subtraction    (-)');
+    console.log('3. Multiplication (*)');
+    console.log('4. Division       (/)');
+    console.log('5. Modulus        (%)');
+    console.log('6. Exponentiation (**)');
+    console.log('7. Quit');
+}
+
+/**
+ * Main function to run the interactive calculator loop.
+ */
+function main() {
+    let running = true;
+
+    while (running) {
+        displayMenu();
+        const choice = readlineSync.questionInt('Select an operation (1-7): ');
+
+        if (choice === 7) {
+            console.log('Goodbye!');
+            running = false;
+            break;
+        }
+
+        if (choice < 1 || choice > 7 || isNaN(choice)) {
+            console.log('Invalid choice! Please select a number between 1 and 7.');
+            continue;
+        }
+
+        const num1 = readlineSync.questionFloat('Enter first number : ');
+        const num2 = readlineSync.questionFloat('Enter second number: ');
+        let result = null;
+        let symbol = '';
+
+        switch (choice) {
+            case 1:
+                result = add(num1, num2);
+                symbol = '+';
+                break;
+            case 2:
+                result = subtract(num1, num2);
+                symbol = '-';
+                break;
+            case 3:
+                result = multiply(num1, num2);
+                symbol = '*';
+                break;
+            case 4:
+                result = divide(num1, num2);
+                symbol = '/';
+                break;
+            case 5:
+                result = modulus(num1, num2);
+                symbol = '%';
+                break;
+            case 6:
+                result = exponentiate(num1, num2);
+                symbol = '**';
+                break;
+        }
+
+        if (result === null) {
+            console.log('Error: Cannot divide by zero.');
+        } else {
+            console.log(`Result: ${num1} ${symbol} ${num2} = ${result.toFixed(2)}`);
+        }
+    }
+}
+
+// Execute the calculator program
+main();
